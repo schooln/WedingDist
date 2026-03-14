@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thiệp cưới Nguyễn Trường &amp; Minh Tâm | 22.03.2026</title>
 
-    <link rel="canonical" id="canonical-url" href="https://schooln.github.io/WedingDist/" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="theme-color" content="#f5a6b8" />
     <meta name="robots" content="index, follow" />
@@ -24,7 +23,6 @@
       property="og:description"
       content="Thiệp cưới online trang trọng dành cho Nguyễn Trường &amp; Minh Tâm. Cùng xem lịch trình và gửi lời chúc."
     />
-    <meta property="og:url" id="og-url" content="https://schooln.github.io/WedingDist/" />
     <meta
       property="og:image"
       id="og-image"
@@ -57,31 +55,9 @@
     />
     <script>
       (() => {
-        const SEARCH_PARAM_MAP = {
-          k: ["k", "guestName", "tenkhach", "ten"],
-          g: ["g", "guestPronoun", "goikhach", "danhxung"],
-          x: ["x", "hostPronoun", "xungho", "minh"],
-          m: ["m", "openingMessage", "loimoi", "introMessage"],
-          n: ["n", "openingSubNote", "ghichu", "introNote"],
-          h: ["h", "mealInvitationHour", "mealHour", "giocom"],
-          d: ["d", "mealInvitationDate", "mealDate", "ngaycom"],
-          v: ["v", "mealInvitationVenue", "mealVenue", "diadiemcom"]
-        };
         const SOCIAL_IMAGE_PATH = "img_source/to3-social.jpg";
         const CACHE_PARAM = "fbv";
         const pageUrl = new URL(window.location.href);
-        const searchParams = new URLSearchParams(window.location.search);
-        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, "").replace(/^\?/, ""));
-        const normalizedParams = new URLSearchParams();
-        const pickValue = (keys) => {
-          for (const source of [hashParams, searchParams]) {
-            for (const key of keys) {
-              const value = source.get(key)?.trim();
-              if (value) return value;
-            }
-          }
-          return "";
-        };
         const createCacheToken = () => {
           const now = new Date();
           const pad = (value, size = 2) => String(value).padStart(size, "0");
@@ -96,31 +72,18 @@
           ].join("");
         };
 
-        Object.entries(SEARCH_PARAM_MAP).forEach(([shortKey, keys]) => {
-          const value = pickValue(keys);
-          if (value) normalizedParams.set(shortKey, value);
-        });
-
-        const preservedPage = searchParams.get("page")?.trim();
-        const preservedView = searchParams.get("view")?.trim();
-        if (preservedPage) normalizedParams.set("page", preservedPage);
-        if (preservedView) normalizedParams.set("view", preservedView);
-
-        normalizedParams.set(CACHE_PARAM, hashParams.get(CACHE_PARAM)?.trim() || searchParams.get(CACHE_PARAM)?.trim() || createCacheToken());
-        pageUrl.search = normalizedParams.toString();
-        pageUrl.hash = "";
+        const cacheToken = pageUrl.searchParams.get(CACHE_PARAM)?.trim() || createCacheToken();
+        pageUrl.searchParams.set(CACHE_PARAM, cacheToken);
 
         const imageUrl = new URL(SOCIAL_IMAGE_PATH, `${window.location.origin}${window.location.pathname}`);
-        imageUrl.searchParams.set(CACHE_PARAM, normalizedParams.get(CACHE_PARAM));
+        imageUrl.searchParams.set(CACHE_PARAM, cacheToken);
 
-        document.getElementById("canonical-url")?.setAttribute("href", pageUrl.toString());
-        document.getElementById("og-url")?.setAttribute("content", pageUrl.toString());
         document.getElementById("og-image")?.setAttribute("content", imageUrl.toString());
         document.getElementById("og-image-secure")?.setAttribute("content", imageUrl.toString());
         document.getElementById("twitter-image")?.setAttribute("content", imageUrl.toString());
       })();
     </script>
-    <script type="module" crossorigin src="https://schooln.github.io/WedingDist/assets/index-bDxTjzjv.js"></script>
+    <script type="module" crossorigin src="https://schooln.github.io/WedingDist/assets/index-BLXKkzlZ.js"></script>
     <link rel="stylesheet" crossorigin href="https://schooln.github.io/WedingDist/assets/index-ChmkALs2.css">
   </head>
   <body>
