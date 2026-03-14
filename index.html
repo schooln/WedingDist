@@ -24,13 +24,15 @@
       property="og:description"
       content="Thiệp cưới online trang trọng dành cho Nguyễn Trường &amp; Minh Tâm. Cùng xem lịch trình và gửi lời chúc."
     />
-    <meta property="og:url" content="https://schooln.github.io/WedingDist/" />
+    <meta property="og:url" id="og-url" content="https://schooln.github.io/WedingDist/" />
     <meta
       property="og:image"
+      id="og-image"
       content="https://schooln.github.io/WedingDist/img_source/to3-social.jpg"
     />
     <meta
       property="og:image:secure_url"
+      id="og-image-secure"
       content="https://schooln.github.io/WedingDist/img_source/to3-social.jpg"
     />
     <meta property="og:image:type" content="image/jpeg" />
@@ -46,13 +48,75 @@
     />
     <meta
       name="twitter:image"
+      id="twitter-image"
       content="https://schooln.github.io/WedingDist/img_source/to3-social.jpg"
     />
     <meta
       name="twitter:image:alt"
       content="Ảnh đại diện thiệp cưới Nguyễn Trường và Minh Tâm"
     />
-    <script type="module" crossorigin src="https://schooln.github.io/WedingDist/assets/index-Ds-PJORC.js"></script>
+    <script>
+      (() => {
+        const SEARCH_PARAM_MAP = {
+          k: ["k", "guestName", "tenkhach", "ten"],
+          g: ["g", "guestPronoun", "goikhach", "danhxung"],
+          x: ["x", "hostPronoun", "xungho", "minh"],
+          m: ["m", "openingMessage", "loimoi", "introMessage"],
+          n: ["n", "openingSubNote", "ghichu", "introNote"],
+          h: ["h", "mealInvitationHour", "mealHour", "giocom"],
+          d: ["d", "mealInvitationDate", "mealDate", "ngaycom"],
+          v: ["v", "mealInvitationVenue", "mealVenue", "diadiemcom"]
+        };
+        const SOCIAL_IMAGE_PATH = "img_source/to3-social.jpg";
+        const CACHE_PARAM = "fbv";
+        const pageUrl = new URL(window.location.href);
+        const sourceParams = new URLSearchParams(window.location.search);
+        const normalizedParams = new URLSearchParams();
+        const pickValue = (keys) => {
+          for (const key of keys) {
+            const value = sourceParams.get(key)?.trim();
+            if (value) return value;
+          }
+          return "";
+        };
+        const createCacheToken = () => {
+          const now = new Date();
+          const pad = (value, size = 2) => String(value).padStart(size, "0");
+          return [
+            now.getFullYear(),
+            pad(now.getMonth() + 1),
+            pad(now.getDate()),
+            pad(now.getHours()),
+            pad(now.getMinutes()),
+            pad(now.getSeconds()),
+            pad(now.getMilliseconds(), 3)
+          ].join("");
+        };
+
+        Object.entries(SEARCH_PARAM_MAP).forEach(([shortKey, keys]) => {
+          const value = pickValue(keys);
+          if (value) normalizedParams.set(shortKey, value);
+        });
+
+        const preservedPage = sourceParams.get("page")?.trim();
+        const preservedView = sourceParams.get("view")?.trim();
+        if (preservedPage) normalizedParams.set("page", preservedPage);
+        if (preservedView) normalizedParams.set("view", preservedView);
+
+        normalizedParams.set(CACHE_PARAM, sourceParams.get(CACHE_PARAM)?.trim() || createCacheToken());
+        pageUrl.search = normalizedParams.toString();
+
+        const imageUrl = new URL(SOCIAL_IMAGE_PATH, `${window.location.origin}${window.location.pathname}`);
+        imageUrl.searchParams.set(CACHE_PARAM, normalizedParams.get(CACHE_PARAM));
+
+        document.getElementById("canonical-url")?.setAttribute("href", pageUrl.toString());
+        document.getElementById("og-url")?.setAttribute("content", pageUrl.toString());
+        document.getElementById("og-image")?.setAttribute("content", imageUrl.toString());
+        document.getElementById("og-image-secure")?.setAttribute("content", imageUrl.toString());
+        document.getElementById("twitter-image")?.setAttribute("content", imageUrl.toString());
+      })();
+    </script>
+    <script type="module" crossorigin src="https://schooln.github.io/WedingDist/assets/index-BLXKkzlZ.js"></script>
     <link rel="stylesheet" crossorigin href="https://schooln.github.io/WedingDist/assets/index-ChmkALs2.css">
   </head>
   <body>
