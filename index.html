@@ -70,12 +70,15 @@
         const SOCIAL_IMAGE_PATH = "img_source/to3-social.jpg";
         const CACHE_PARAM = "fbv";
         const pageUrl = new URL(window.location.href);
-        const sourceParams = new URLSearchParams(window.location.search);
+        const searchParams = new URLSearchParams(window.location.search);
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, "").replace(/^\?/, ""));
         const normalizedParams = new URLSearchParams();
         const pickValue = (keys) => {
-          for (const key of keys) {
-            const value = sourceParams.get(key)?.trim();
-            if (value) return value;
+          for (const source of [hashParams, searchParams]) {
+            for (const key of keys) {
+              const value = source.get(key)?.trim();
+              if (value) return value;
+            }
           }
           return "";
         };
@@ -98,13 +101,14 @@
           if (value) normalizedParams.set(shortKey, value);
         });
 
-        const preservedPage = sourceParams.get("page")?.trim();
-        const preservedView = sourceParams.get("view")?.trim();
+        const preservedPage = searchParams.get("page")?.trim();
+        const preservedView = searchParams.get("view")?.trim();
         if (preservedPage) normalizedParams.set("page", preservedPage);
         if (preservedView) normalizedParams.set("view", preservedView);
 
-        normalizedParams.set(CACHE_PARAM, sourceParams.get(CACHE_PARAM)?.trim() || createCacheToken());
+        normalizedParams.set(CACHE_PARAM, hashParams.get(CACHE_PARAM)?.trim() || searchParams.get(CACHE_PARAM)?.trim() || createCacheToken());
         pageUrl.search = normalizedParams.toString();
+        pageUrl.hash = "";
 
         const imageUrl = new URL(SOCIAL_IMAGE_PATH, `${window.location.origin}${window.location.pathname}`);
         imageUrl.searchParams.set(CACHE_PARAM, normalizedParams.get(CACHE_PARAM));
@@ -116,7 +120,7 @@
         document.getElementById("twitter-image")?.setAttribute("content", imageUrl.toString());
       })();
     </script>
-    <script type="module" crossorigin src="https://schooln.github.io/WedingDist/assets/index-BLXKkzlZ.js"></script>
+    <script type="module" crossorigin src="https://schooln.github.io/WedingDist/assets/index-bDxTjzjv.js"></script>
     <link rel="stylesheet" crossorigin href="https://schooln.github.io/WedingDist/assets/index-ChmkALs2.css">
   </head>
   <body>
